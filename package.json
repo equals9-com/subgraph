@@ -1,0 +1,8 @@
+{
+  "name": "subgraph",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:equals9-com/subgraph.git",
+  "author": "Pedro Bufulin <pedrohenriquebufulindealmeida@gmail.com>",
+  "license": "MIT"
+}

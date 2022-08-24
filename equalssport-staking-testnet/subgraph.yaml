@@ -1,0 +1,35 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Staking
+    network: mumbai
+    source:
+      address: "0x11B8AbF80246E103786f7390bAf1688CAC5b466b"
+      abi: Staking
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - OwnershipTransferred
+        - Paused
+        - Staked
+        - Unpaused
+        - Unstaked
+      abis:
+        - name: Staking
+          file: ./abis/Staking.json
+      eventHandlers:
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Paused(address)
+          handler: handlePaused
+        - event: Staked(uint256,address,address)
+          handler: handleStaked
+        - event: Unpaused(address)
+          handler: handleUnpaused
+        - event: Unstaked(uint256,address,address)
+          handler: handleUnstaked
+      file: ./src/staking.ts
