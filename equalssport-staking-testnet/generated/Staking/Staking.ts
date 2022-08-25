@@ -67,12 +67,16 @@ export class Staked__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
+  get timestamp(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
   get player(): Address {
-    return this._event.parameters[1].value.toAddress();
+    return this._event.parameters[2].value.toAddress();
   }
 
   get staker(): Address {
-    return this._event.parameters[2].value.toAddress();
+    return this._event.parameters[3].value.toAddress();
   }
 }
 
@@ -111,12 +115,16 @@ export class Unstaked__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
+  get timestamp(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
   get player(): Address {
-    return this._event.parameters[1].value.toAddress();
+    return this._event.parameters[2].value.toAddress();
   }
 
   get staker(): Address {
-    return this._event.parameters[2].value.toAddress();
+    return this._event.parameters[3].value.toAddress();
   }
 }
 

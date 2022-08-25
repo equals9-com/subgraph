@@ -7,7 +7,7 @@ import {
   Unpaused,
   Unstaked
 } from "../generated/Staking/Staking"
-import { ExampleEntity } from "../generated/schema"
+import { ExampleEntity, Stake } from "../generated/schema"
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -61,8 +61,18 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 
 export function handlePaused(event: Paused): void {}
 
-export function handleStaked(event: Staked): void {}
+export function handleStaked(event: Staked): void {
+  let stake = new Stake(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
+  stake.amount = event.params.amount;
+  stake.staker = event.params.staker.toString();
+  stake.player = event.params.player.toString();
+  stake.timestamp = event.params.timestamp;
+  stake.save();
+}
 
 export function handleUnpaused(event: Unpaused): void {}
 
 export function handleUnstaked(event: Unstaked): void {}
+
+
+

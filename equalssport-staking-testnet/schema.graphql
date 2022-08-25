@@ -4,3 +4,22 @@ type ExampleEntity @entity {
   previousOwner: Bytes! # address
   newOwner: Bytes! # address
 }
+
+type Staker @entity {
+  id: ID!
+  address: Bytes! # address
+  totalStake: BigInt!
+}
+
+type Player @entity {
+  id: ID!
+  address: Bytes! # address
+}
+
+type Stake @entity {
+  id: ID!
+  staker: Staker!
+  player: Player!
+  amount: BigInt! 
+  timestamp: BigInt!
+}
