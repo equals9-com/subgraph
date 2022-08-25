@@ -62,6 +62,15 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 export function handlePaused(event: Paused): void {}
 
 export function handleStaked(event: Staked): void {
+
+  //TODO: criar um staker se ele já não existe
+
+
+  // criar um player se ele já não existe
+
+
+  // associar o player e o staker juntos num stake
+
   let stake = new Stake(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
   stake.amount = event.params.amount;
   stake.staker = event.params.staker.toString();
