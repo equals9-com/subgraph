@@ -93,7 +93,7 @@ export function handleStaked(event: Staked): void {
   let stake = Stake.load(stakerAddress.toHexString() + "-" + playerAddress.toHexString())
 
   if(!stake){
-    stake = new Stake(stakerAddress.toString() + "-" + playerAddress.toString())
+    stake = new Stake(stakerAddress.toHexString() + "-" + playerAddress.toHexString())
     stake.amount = amount;
     stake.staker = staker.id;
     stake.player = player.id;
@@ -123,17 +123,17 @@ export function handleUnstaked(event: Unstaked): void {
     let player = Player.load(playerAddress.toString())
 
   if(player){
-    player.totalStaked = amount.minus(player.totalStaked)
+    player.totalStaked = player.totalStaked.minus(amount);
     player.save()
   } 
   
     let staker = Staker.load(stakerAddress.toString())
     if (staker){
-    staker.totalStaked = amount.minus(staker.totalStaked)
+    staker.totalStaked = staker.totalStaked.minus(amount)
     staker.save()
    }
 
-    let stake = Stake.load(stakerAddress.toHexString() + "-" + playerAddress.toHex())  
+    let stake = Stake.load(stakerAddress.toHexString() + "-" + playerAddress.toHexString())  
     if (stake){
       stake.amount = stake.amount.minus(amount)
       if(stake.amount.equals(BigInt.zero())) stake.timestamp = BigInt.zero() 
