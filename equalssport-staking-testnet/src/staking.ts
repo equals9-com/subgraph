@@ -80,8 +80,8 @@ export function handleStaked(event: Staked): void {
   if(!stake){
     stake = new Stake(event.params.staker.toString() + "-" + event.params.player.toString())
     stake.amount = event.params.amount;
-    stake.staker = event.params.staker.toString();
-    stake.player = event.params.player.toString();
+    stake.staker = staker.id;
+    stake.player = player.id;
     stake.timestamp = event.params.timestamp;
     stake.save()
     return;
