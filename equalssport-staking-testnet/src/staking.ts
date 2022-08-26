@@ -62,41 +62,84 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 export function handlePaused(event: Paused): void {}
 
 export function handleStaked(event: Staked): void {  
-  let player = Player.load(event.params.player.toString())
+  const amount = event.params.amount;
+  const playerAddress = event.params.player;
+  const stakerAddress = event.params.staker;
+  const timestamp = event.params.timestamp;
+
+  let player = Player.load(playerAddress.toString())
+
   if (!player) {
-    player = new Player(event.params.player.toString())
-    player.totalStaked = event.params.amount;
-    player.address = event.params.player
+    player = new Player(playerAddress.toString())
+    player.totalStaked = amount;
+    player.address = playerAddress
+    player.save()
+  } else {
+    player.totalStaked = amount.plus(player.totalStaked)
     player.save()
   }
-  let staker = Staker.load(event.params.staker.toString())
+
+  let staker = Staker.load(stakerAddress.toString())
   if (!staker) {
-    staker = new Staker(event.params.staker.toString())
-    staker.totalStaked = event.params.amount;
-    staker.address = event.params.staker
+    staker = new Staker(stakerAddress.toString())
+    staker.totalStaked = amount;
+    staker.address = stakerAddress
+    staker.save()
+  } else {
+    staker.totalStaked = amount.plus(staker.totalStaked)
     staker.save()
   }
 
-  let stake = Stake.load(event.params.staker.toString() + "-" + event.params.player.toString())
+  let stake = Stake.load(stakerAddress.toHexString() + "-" + playerAddress.toHexString())
 
   if(!stake){
-    stake = new Stake(event.params.staker.toString() + "-" + event.params.player.toString())
-    stake.amount = event.params.amount;
+    stake = new Stake(stakerAddress.toString() + "-" + playerAddress.toString())
+    stake.amount = amount;
     stake.staker = staker.id;
     stake.player = player.id;
-    stake.timestamp = event.params.timestamp;
+    stake.timestamp = timestamp;
     stake.save()
     return;
   } else {
-      stake.amount = stake.amount.plus(event.params.amount)
+      stake.amount = stake.amount.plus(amount)
       stake.save()
   }
 
 }
 
-export function handleUnpaused(event: Unpaused): void {}
+export function handleUnpaused(event: Unpaused): void {
 
-export function handleUnstaked(event: Unstaked): void {}
+
+
+
+
+}
+
+export function handleUnstaked(event: Unstaked): void {
+  const amount = event.params.amount;
+  const playerAddress = event.params.player;
+  const stakerAddress = event.params.staker;
+  
+    let player = Player.load(playerAddress.toString())
+
+  if(player){
+    player.totalStaked = amount.minus(player.totalStaked)
+    player.save()
+  } 
+  
+    let staker = Staker.load(stakerAddress.toString())
+    if (staker){
+    staker.totalStaked = amount.minus(staker.totalStaked)
+    staker.save()
+   }
+
+    let stake = Stake.load(stakerAddress.toHexString() + "-" + playerAddress.toHex())  
+    if (stake){
+      stake.amount = stake.amount.minus(amount)
+      if(stake.amount.equals(BigInt.zero())) stake.timestamp = BigInt.zero() 
+      stake.save()
+  }
+}
 
 
 
