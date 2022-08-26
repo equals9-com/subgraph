@@ -8,12 +8,13 @@ type ExampleEntity @entity {
 type Staker @entity {
   id: ID!
   address: Bytes! # address
-  totalStake: BigInt!
+  totalStaked: BigInt!
 }
 
 type Player @entity {
   id: ID!
   address: Bytes! # address
+  totalStaked: BigInt!
 }
 
 type Stake @entity {

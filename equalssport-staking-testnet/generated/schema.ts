@@ -110,13 +110,13 @@ export class Staker extends Entity {
     this.set("address", Value.fromBytes(value));
   }
 
-  get totalStake(): BigInt {
-    let value = this.get("totalStake");
+  get totalStaked(): BigInt {
+    let value = this.get("totalStaked");
     return value!.toBigInt();
   }
 
-  set totalStake(value: BigInt) {
-    this.set("totalStake", Value.fromBigInt(value));
+  set totalStaked(value: BigInt) {
+    this.set("totalStaked", Value.fromBigInt(value));
   }
 }
 
@@ -158,6 +158,15 @@ export class Player extends Entity {
 
   set address(value: Bytes) {
     this.set("address", Value.fromBytes(value));
+  }
+
+  get totalStaked(): BigInt {
+    let value = this.get("totalStaked");
+    return value!.toBigInt();
+  }
+
+  set totalStaked(value: BigInt) {
+    this.set("totalStaked", Value.fromBigInt(value));
   }
 }
 

@@ -7,7 +7,7 @@ import {
   Unpaused,
   Unstaked
 } from "../generated/Staking/Staking"
-import { ExampleEntity, Stake } from "../generated/schema"
+import { ExampleEntity, Player, Stake, Staker } from "../generated/schema"
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {
   // Entities can be loaded from the store using a string ID; this ID
@@ -61,22 +61,35 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
 
 export function handlePaused(event: Paused): void {}
 
-export function handleStaked(event: Staked): void {
+export function handleStaked(event: Staked): void {  
+  let player = Player.load(event.params.player.toString())
+  if (!player) {
+    player = new Player(event.params.player.toString())
+    player.totalStaked = event.params.amount;
+    player.save()
+  }
+  let staker = Staker.load(event.params.staker.toString())
+  if (!staker) {
+    staker = new Staker(event.params.staker.toString())
+    staker.totalStaked = event.params.amount;
+    staker.save()
+  }
 
-  //TODO: criar um staker se ele já não existe
+  let stake = Stake.load(event.params.staker.toString() + "-" + event.params.player.toString())
 
+  if(!stake){
+    stake = new Stake(event.params.staker.toString() + "-" + event.params.player.toString())
+    stake.amount = event.params.amount;
+    stake.staker = event.params.staker.toString();
+    stake.player = event.params.player.toString();
+    stake.timestamp = event.params.timestamp;
+    stake.save()
+    return;
+  } else {
+      stake.amount = stake.amount.plus(event.params.amount)
+      stake.save()
+  }
 
-  // criar um player se ele já não existe
-
-
-  // associar o player e o staker juntos num stake
-
-  let stake = new Stake(event.transaction.hash.toHex() + "-" + event.logIndex.toString())
-  stake.amount = event.params.amount;
-  stake.staker = event.params.staker.toString();
-  stake.player = event.params.player.toString();
-  stake.timestamp = event.params.timestamp;
-  stake.save();
 }
 
 export function handleUnpaused(event: Unpaused): void {}
