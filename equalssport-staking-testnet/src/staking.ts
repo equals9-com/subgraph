@@ -66,12 +66,14 @@ export function handleStaked(event: Staked): void {
   if (!player) {
     player = new Player(event.params.player.toString())
     player.totalStaked = event.params.amount;
+    player.address = event.params.player
     player.save()
   }
   let staker = Staker.load(event.params.staker.toString())
   if (!staker) {
     staker = new Staker(event.params.staker.toString())
     staker.totalStaked = event.params.amount;
+    staker.address = event.params.staker
     staker.save()
   }
 
