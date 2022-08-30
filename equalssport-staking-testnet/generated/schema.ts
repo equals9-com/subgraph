@@ -118,6 +118,15 @@ export class Staker extends Entity {
   set totalStaked(value: BigInt) {
     this.set("totalStaked", Value.fromBigInt(value));
   }
+
+  get stakesAmount(): i32 {
+    let value = this.get("stakesAmount");
+    return value!.toI32();
+  }
+
+  set stakesAmount(value: i32) {
+    this.set("stakesAmount", Value.fromI32(value));
+  }
 }
 
 export class Player extends Entity {
@@ -167,6 +176,15 @@ export class Player extends Entity {
 
   set totalStaked(value: BigInt) {
     this.set("totalStaked", Value.fromBigInt(value));
+  }
+
+  get stakesAmount(): i32 {
+    let value = this.get("stakesAmount");
+    return value!.toI32();
+  }
+
+  set stakesAmount(value: i32) {
+    this.set("stakesAmount", Value.fromI32(value));
   }
 }
 

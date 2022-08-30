@@ -9,12 +9,14 @@ type Staker @entity {
   id: ID!
   address: Bytes! # address
   totalStaked: BigInt!
+  stakesAmount: Int!
 }
 
 type Player @entity {
   id: ID!
   address: Bytes! # address
   totalStaked: BigInt!
+  stakesAmount: Int!
 }
 
 type Stake @entity {
